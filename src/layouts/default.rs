@@ -9,16 +9,14 @@ pub fn Layout(children: Children) -> impl IntoView {
                 // navbar
             </nav>
             <main class="flex-1 p-4">
-                <div class="grid grid-cols-1 md:grid-cols-3">
-                    <div class="col-span-1"></div>
-                    <div class="col-span-1">
-                        {children()}
-                    </div>
-                    <div class="col-span-1"></div>
-                </div>
+                {children()}
             </main>
-            <footer class="h-12">
-                <p class="text-center">資工四 S1154012 黃獻毅</p>
+            <footer>
+                <address class="text-center">
+                    資工四 S1154012 黃獻毅
+                    <br></br>
+                    Written in Rust with Leptos
+                </address>
             </footer>
         </div>
     }

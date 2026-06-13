@@ -1,3 +1,5 @@
+use crate::des::states::{FState, RoundState};
+
 pub fn e_box(input: u32) -> u64 {
     static E_BOX: [usize; 48] = [
         32, 1, 2, 3, 4, 5, 4, 5, 6, 7, 8, 9, 8, 9, 10, 11, 12, 13, 12, 13, 14, 15, 16, 17, 16, 17,
@@ -108,11 +110,36 @@ pub fn p_box(input: u32) -> u32 {
     output
 }
 
-pub fn f(input: u32, subkey: u64) -> u32 {
+pub fn f(input: u32, subkey: u64) -> (u32, FState) {
     let expanded = e_box(input);
     let xored = expanded ^ subkey;
     let sboxed = s_box(xored);
     let pboxed = p_box(sboxed);
 
-    pboxed
+    let state = FState {
+        expanded: expanded,
+        xored: xored,
+        sboxed: sboxed,
+        pboxed: pboxed,
+    };
+
+    (pboxed, state)
+}
+
+pub fn round(l: u32, r: u32, subkey: u64) -> (u32, u32, RoundState) {
+    let (fed, f_state) = f(r, subkey);
+
+    let new_l = r;
+    let new_r = l ^ fed;
+
+    let state = RoundState {
+        l_in: l,
+        r_in: r,
+        subkey: subkey,
+        f_state: f_state,
+        l_out: new_l,
+        r_out: new_r,
+    };
+
+    (new_l, new_r, state)
 }

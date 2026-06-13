@@ -1,16 +1,13 @@
 use leptos::prelude::*;
 
-mod layouts;
-use layouts::default::Layout;
-
-mod components;
-use components::encryption_form::EncryptionForm;
+use des_tool::layouts::default::Layout;
+use des_tool::pages::home_page::HomePage;
 
 #[component]
 fn App() -> impl IntoView {
     view! {
         <Layout>
-            <EncryptionForm />
+            <HomePage />
         </Layout>
     }
 }
