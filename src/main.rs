@@ -1,9 +1,17 @@
 use leptos::prelude::*;
 
+mod layouts;
+use layouts::default::Layout;
+
+mod components;
+use components::encryption_form::EncryptionForm;
+
 #[component]
 fn App() -> impl IntoView {
     view! {
-        <p>"Hello, world!"</p>
+        <Layout>
+            <EncryptionForm />
+        </Layout>
     }
 }
 
