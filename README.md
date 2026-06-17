@@ -52,12 +52,19 @@
    ```
    cd des-tool
    ```
-3. Install dependencies:
+3. Install trunk for running the development server:
    ```
    cargo install trunk
+   ```
+4. Add the `wasm32-unknown-unknown` target:
+   ```
    rustup target add wasm32-unknown-unknown
    ```
-4. Run the development server:
+5. Install dependencies and build the project:
+   ```
+   cargo build
+   ```
+6. Run the development server:
    ```
    trunk serve
    ```
