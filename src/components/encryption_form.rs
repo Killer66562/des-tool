@@ -1,6 +1,4 @@
 use crate::components::hex_input::HexInput;
-use leptos::attr::any_attribute::AnyAttribute;
-use leptos::ev::SubmitEvent;
 use leptos::prelude::*;
 use regex::Regex;
 use std::sync::LazyLock;
@@ -13,12 +11,11 @@ pub fn EncryptionForm(
     set_text: WriteSignal<String>,
     key: ReadSignal<String>,
     set_key: WriteSignal<String>,
-    result: ReadSignal<String>,
-    set_result: WriteSignal<String>,
     decrypt_mode: ReadSignal<bool>,
     set_decrypt_mode: WriteSignal<bool>,
-    #[prop(into)] on_submit: Callback<SubmitEvent>,
-    #[prop(attrs, optional)] attrs: Vec<AnyAttribute>,
+    /// 提交表單時觸發的回調函數，傳入文本、密鑰和是否為解密模式。
+    #[prop(into)]
+    on_submit: Callback<(String, String, bool)>,
 ) -> impl IntoView {
     let is_key_invalid = Memo::new(move |_| !RE.is_match(key.get().as_str()));
     let is_text_invalid = Memo::new(move |_| !RE.is_match(text.get().as_str()));
@@ -26,13 +23,15 @@ pub fn EncryptionForm(
 
     view! {
         <form
-            {..attrs}
-            on:submit=move |ev| on_submit.run(ev)
+            on:submit=move |ev| {
+                ev.prevent_default();
+                on_submit.run((text.get(), key.get(), decrypt_mode.get()))
+            }
         >
             <fieldset class="fieldset">
-                <legend class="fieldset-legend">輸入</legend>
+                <legend class="fieldset-legend">"輸入"</legend>
 
-                <label for="key" class="label">密鑰</label>
+                <label for="key" class="label">"密鑰"</label>
                 <HexInput
                     attr:id="key"
                     attr:name="key"
@@ -41,25 +40,25 @@ pub fn EncryptionForm(
                     set_value=set_key
                 />
                 <Show when=move || is_key_invalid.get()>
-                    <p class="text-red-500">請輸入一個合法的密鑰</p>
+                    <p class="text-red-500">"請輸入一個合法的密鑰"</p>
                 </Show>
 
-                <label for="plaintext" class="label">{move || if decrypt_mode.get() { "密文" } else { "明文" }}</label>
+                <label for="input" class="label">{move || if decrypt_mode.get() { "密文" } else { "明文" }}</label>
                 <HexInput
-                    attr:id="plaintext"
-                    attr:name="plaintext"
+                    attr:id="input"
+                    attr:name="input"
                     attr:class="input w-full"
                     value=text
                     set_value=set_text
                 />
                 <Show when=move || is_text_invalid.get()>
-                    <p class="text-red-500">請輸入一個合法的{move || if decrypt_mode.get() { "密文" } else { "明文" }}</p>
+                    <p class="text-red-500">"請輸入一個合法的"{move || if decrypt_mode.get() { "密文" } else { "明文" }}</p>
                 </Show>
             </fieldset>
 
             <fieldset class="fieldset">
-                <legend class="fieldset-legend">模式</legend>
-                <div class="flex flex-0">
+                <legend class="fieldset-legend">"模式"</legend>
+                <div class="flex flex-0 gap-2">
                     <div>
                         <input
                             type="radio"
@@ -82,7 +81,7 @@ pub fn EncryptionForm(
                             prop:checked=move || decrypt_mode.get()
                             on:change=move |_| set_decrypt_mode.set(true)
                         />
-                        <label for="decrypt_mode">解密</label>
+                        <label for="decrypt_mode">"解密"</label>
                     </div>
                 </div>
             </fieldset>
@@ -90,22 +89,6 @@ pub fn EncryptionForm(
             <button type="submit" class="btn btn-primary mt-4 mb-4 w-full" disabled=move || is_button_disabled.get()>
                 {move || if decrypt_mode.get() { "解密" } else { "加密" }}
             </button>
-
-            <fieldset class="fieldset">
-                <legend class="fieldset-legend">輸出</legend>
-
-                <label for="ciphertext" class="label">
-                    {move || if decrypt_mode.get() { "明文" } else { "密文" }}
-                </label>
-                <HexInput
-                    attr:id="ciphertext"
-                    attr:name="ciphertext"
-                    attr:class="input w-full"
-                    attr:readonly=true
-                    value=result
-                    set_value=set_result
-                />
-            </fieldset>
         </form>
     }
 }

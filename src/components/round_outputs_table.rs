@@ -1,24 +1,16 @@
-use crate::des::states::IndexedRoundState;
-use leptos::attr::any_attribute::AnyAttribute;
+use crate::des::{Indexed, RoundState};
 use leptos::prelude::*;
 
 #[component]
-pub fn RoundOutputsTable(
-    value: Signal<[IndexedRoundState; 16]>,
-    #[prop(attrs, optional)] attrs: Vec<AnyAttribute>,
-) -> impl IntoView {
+pub fn RoundOutputsTable(#[prop(into)] value: Signal<[Indexed<RoundState>; 16]>) -> impl IntoView {
     view! {
-        <table
-            {..attrs}
-        >
+        <table>
+            <caption class="caption-top text-center font-bold p-4">"輪次輸出"</caption>
             <thead>
                 <tr>
-                    <th>輪次</th>
-                    <th>輸入L</th>
-                    <th>輸入R</th>
-                    <th>Subkey</th>
-                    <th>輸出L</th>
-                    <th>輸出R</th>
+                    <th>"輪次"</th>
+                    <th>"輸出L"</th>
+                    <th>"輸出R"</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,13 +19,10 @@ pub fn RoundOutputsTable(
                     key=move |round| (
                         round.state.l_out, round.state.r_out
                     )
-                    let (IndexedRoundState { index, state })
+                    let (Indexed { index, state })
                 >
                     <tr>
                         <td>{index}</td>
-                        <td>{format!("{:08X}", state.l_in)}</td>
-                        <td>{format!("{:08X}", state.r_in)}</td>
-                        <td>{format!("{:12X}", state.subkey)}</td>
                         <td>{format!("{:08X}", state.l_out)}</td>
                         <td>{format!("{:08X}", state.r_out)}</td>
                     </tr>

@@ -1,25 +1,24 @@
-use leptos::attr::any_attribute::AnyAttribute;
 use leptos::prelude::*;
 
 #[component]
 pub fn HexInput(
-    value: ReadSignal<String>,
-    set_value: WriteSignal<String>,
-    #[prop(attrs, optional)] attrs: Vec<AnyAttribute>,
+    #[prop(into)] value: Signal<String>,
+    #[prop(optional)] set_value: Option<WriteSignal<String>>,
 ) -> impl IntoView {
     let on_input = move |ev| {
-        let filtered = event_target_value(&ev)
-            .chars()
-            .filter(|c| c.is_ascii_hexdigit())
-            .take(16)
-            .collect();
+        if let Some(set_value) = &set_value {
+            let filtered = event_target_value(&ev)
+                .chars()
+                .filter(|c| c.is_ascii_hexdigit())
+                .take(16)
+                .collect();
 
-        set_value.set(filtered)
+            set_value.set(filtered)
+        }
     };
 
     view! {
         <input
-            {..attrs}
             type="text"
             pattern="[0-9A-Fa-f]+"
             max=16 prop:value=move || value.get()

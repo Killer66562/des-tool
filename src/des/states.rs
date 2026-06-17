@@ -1,4 +1,4 @@
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
+#[derive(Clone, Debug, Default)]
 pub struct FState {
     pub expanded: u64,
     pub xored: u64,
@@ -6,7 +6,7 @@ pub struct FState {
     pub pboxed: u32,
 }
 
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
+#[derive(Clone, Debug, Default)]
 pub struct RoundState {
     pub l_in: u32,
     pub r_in: u32,
@@ -18,21 +18,21 @@ pub struct RoundState {
     pub r_out: u32,
 }
 
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-pub struct IndexedRoundState {
+#[derive(Clone, Debug, Default)]
+pub struct Indexed<T> {
     pub index: usize,
-    pub state: RoundState,
+    pub state: T,
 }
 
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
+#[derive(Clone, Debug, Default)]
 pub struct DesState {
     pub input: u64,
     pub key: u64,
 
     pub ip_output: u64,
 
-    pub subkeys: [u64; 16],
-    pub rounds: [IndexedRoundState; 16],
+    pub subkeys: [Indexed<u64>; 16],
+    pub rounds: [Indexed<RoundState>; 16],
 
     pub pre_output: u64,
 
