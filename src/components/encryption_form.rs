@@ -29,9 +29,9 @@ pub fn EncryptionForm(
             }
         >
             <fieldset class="fieldset">
-                <legend class="fieldset-legend">"輸入"</legend>
+                <legend class="fieldset-legend">"Input"</legend>
 
-                <label for="key" class="label">"密鑰"</label>
+                <label for="key" class="label">"Key"</label>
                 <HexInput
                     attr:id="key"
                     attr:name="key"
@@ -40,10 +40,10 @@ pub fn EncryptionForm(
                     set_value=set_key
                 />
                 <Show when=move || is_key_invalid.get()>
-                    <p class="text-red-500">"請輸入一個合法的密鑰"</p>
+                    <p class="text-red-500">"Please enter a valid key (64-bit hexadecimal)"</p>
                 </Show>
 
-                <label for="input" class="label">{move || if decrypt_mode.get() { "密文" } else { "明文" }}</label>
+                <label for="input" class="label">{move || if decrypt_mode.get() { "Ciphertext" } else { "Plaintext" }}</label>
                 <HexInput
                     attr:id="input"
                     attr:name="input"
@@ -52,12 +52,12 @@ pub fn EncryptionForm(
                     set_value=set_text
                 />
                 <Show when=move || is_text_invalid.get()>
-                    <p class="text-red-500">"請輸入一個合法的"{move || if decrypt_mode.get() { "密文" } else { "明文" }}</p>
+                    <p class="text-red-500">"Please enter a valid "{move || if decrypt_mode.get() { "ciphertext" } else { "plaintext" }}" (64-bit hexadecimal)"</p>
                 </Show>
             </fieldset>
 
             <fieldset class="fieldset">
-                <legend class="fieldset-legend">"模式"</legend>
+                <legend class="fieldset-legend">"Mode"</legend>
                 <div class="flex flex-0 gap-2">
                     <div>
                         <input
@@ -69,7 +69,7 @@ pub fn EncryptionForm(
                             prop:checked=move || !decrypt_mode.get()
                             on:change=move |_| set_decrypt_mode.set(false)
                         />
-                        <label for="encrypt_mode">加密</label>
+                        <label for="encrypt_mode">"Encrypt"</label>
                     </div>
                     <div>
                         <input
@@ -81,13 +81,13 @@ pub fn EncryptionForm(
                             prop:checked=move || decrypt_mode.get()
                             on:change=move |_| set_decrypt_mode.set(true)
                         />
-                        <label for="decrypt_mode">"解密"</label>
+                        <label for="decrypt_mode">"Decrypt"</label>
                     </div>
                 </div>
             </fieldset>
 
             <button type="submit" class="btn btn-primary mt-4 mb-4 w-full" disabled=move || is_button_disabled.get()>
-                {move || if decrypt_mode.get() { "解密" } else { "加密" }}
+                {move || if decrypt_mode.get() { "Decrypt" } else { "Encrypt" }}
             </button>
         </form>
     }

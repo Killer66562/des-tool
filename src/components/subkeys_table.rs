@@ -5,11 +5,11 @@ use leptos::prelude::*;
 pub fn SubkeysTable(#[prop(into)] value: Signal<[Indexed<u64>; 16]>) -> impl IntoView {
     view! {
         <table>
-            <caption class="caption-top text-center font-bold p-4">"輪次密鑰"</caption>
+            <caption class="caption-top text-center font-bold p-4">"Subkeys Per Round"</caption>
             <thead>
                 <tr>
-                    <th>"輪次"</th>
-                    <th>"密鑰"</th>
+                    <th>"Round"</th>
+                    <th>"Key"</th>
                 </tr>
             </thead>
             <tbody>

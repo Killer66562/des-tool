@@ -5,12 +5,12 @@ use leptos::prelude::*;
 pub fn RoundOutputsTable(#[prop(into)] value: Signal<[Indexed<RoundState>; 16]>) -> impl IntoView {
     view! {
         <table>
-            <caption class="caption-top text-center font-bold p-4">"輪次輸出"</caption>
+            <caption class="caption-top text-center font-bold p-4">"Outputs Per Round"</caption>
             <thead>
                 <tr>
-                    <th>"輪次"</th>
-                    <th>"輸出L"</th>
-                    <th>"輸出R"</th>
+                    <th>"Round"</th>
+                    <th>"L"</th>
+                    <th>"R"</th>
                 </tr>
             </thead>
             <tbody>

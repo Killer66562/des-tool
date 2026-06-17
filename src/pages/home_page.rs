@@ -48,9 +48,7 @@ pub fn HomePage() -> impl IntoView {
             when=move|| show_details.get()
         >
             <ResultForm
-                ip_output=move || format!("{:016X}", des_state.get().unwrap_or_default().ip_output)
-                pre_output=move || format!("{:016X}", des_state.get().unwrap_or_default().pre_output)
-                result=move || format!("{:016X}", des_state.get().unwrap_or_default().output)
+                result=result
                 decrypt_mode=decrypt_mode
             />
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

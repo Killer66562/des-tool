@@ -12,7 +12,7 @@ pub fn Layout(children: Children) -> impl IntoView {
             </main>
             <footer>
                 <address class="text-center p-4">
-                    "資工四 S1154012 黃獻毅"
+                    "資工四 S1154012"
                     <br></br>
                     "Written in Rust with Leptos"
                 </address>
