@@ -46,7 +46,7 @@
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/des-tool.git
+   git clone https://github.com/Killer66562/des-tool.git
    ```
 2. Navigate to the project directory:
    ```
